@@ -1,0 +1,29 @@
+[
+  {
+    "cluster_id" :  "c-normal",
+     "rules" : [
+       {
+         "name" : "transfer",
+         "rule" : "substring({code},0,2) == 01",
+         "calculation" : [
+           {
+             "key" : "Fee Issuer",
+             "exp" : "{amount} * #fee_iss_percentage * #PPN"
+           },
+           {
+             "key" : "Fee Acquirer",
+             "exp" : "{amount} * #fee_acq_percentage * #PPN"
+           },
+           {
+             "key" : "Fee Acquirer",
+             "exp" : "{amount} * 0.04 * #PPN"
+           }
+         ]
+       }
+
+     ]
+  }
+]
+
+
+// # = adalah key reference ke cons PPN

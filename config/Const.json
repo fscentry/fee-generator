@@ -1,0 +1,20 @@
+{
+  "const_references": [
+    {
+      "key": "bni",
+      "val": "BNI"
+    },
+    {
+      "key": "PPN",
+      "val": "0.12"
+    },
+    {
+      "key": "fee_iss_percentage",
+      "val": "0.02"
+    },
+    {
+      "key": "fee_icq_percentage",
+      "val": "0.03"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "clusters": [
+    {
+      "name": "Normal Cluster",
+      "id": "c-normal",
+      "priority": 1,
+      "sub_cluster": null,
+      "rules": "{issuer} != {acquirer} != {destination} && substring({code},0,2) in [02,23,04,01]"
+    },
+    {
+      "name": "Normal Cluster - priority",
+      "id": "c-normal-prio",
+      "priority": 1,
+      "sub_cluster": "sub_cluster",
+      "rules": "{channel} in [62001,62002,62003]"
+    },
+    {
+      "name": "Default Cluster",
+      "id": "default",
+      "priority": 0,
+      "sub_cluster" : null,
+      "rules": null
+    }
+  ]
+}
+
+// substring
+// startWith
+// contains
