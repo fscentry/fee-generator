@@ -17,10 +17,3 @@ pub fn test_run(){
         println! ("rules: {:?}", first_cluster.rules);
     }
 }
-
-
-#[cfg(test)]
-mod tests {
-
-
-}
