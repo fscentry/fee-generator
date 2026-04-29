@@ -11,7 +11,7 @@ fn test_full_loading_flow() {
     assert!(!config.cluster_json_path.is_empty(), "Path JSON cannot be empty!");
 
     // 3. Test Cluster Loader (JSON)
-    let clusters = clusters_loader::get_cluster(config);
+    let clusters = clusters_loader::get_cluster(&config.cluster_json_path);
 
     // Validation
     assert!(!clusters.clusters.is_empty(), "there must be at least one cluster!");

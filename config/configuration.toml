@@ -1,2 +1,3 @@
 # configuration.toml
 cluster_json_path = "./config/Cluster.json"
+input_path = "./input/example.txt"
