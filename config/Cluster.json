@@ -5,7 +5,7 @@
       "id": "c-normal",
       "priority": 1,
       "sub_cluster": null,
-      "rules": "{issuer} != {acquirer} != {destination} && substring({code},0,2) in [02,23,04,01]"
+      "rules": "{issuer} != {acquirer} && {issuer} != {destination} && {acquirer} != {destination} && {code} in ['02','23','04','01']"
     },
     {
       "name": "Default Cluster",

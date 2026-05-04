@@ -125,6 +125,7 @@ name = "fee_generator"
 version = "0.1.0"
 dependencies = [
  "evaluator_rs",
+ "regex",
  "serde",
  "serde_json",
  "toml",

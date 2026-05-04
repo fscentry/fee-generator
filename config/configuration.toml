@@ -1,3 +1,4 @@
 # configuration.toml
 cluster_json_path = "./config/Cluster.json"
+cluster_fee_json_path = "./config/FeeList.json"
 input_path = "./input/example.txt"

@@ -1,7 +1,7 @@
 
 use std::fs::File;
 use std::io::{BufRead, BufReader};
-use toml::Value;
+use serde_json::Value;
 
 pub fn load_file_input_txt(path : &str) -> Result<Vec<Value>, Box<dyn std::error::Error>> {
 

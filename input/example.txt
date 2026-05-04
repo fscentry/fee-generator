@@ -1,3 +1,4 @@
-{"name": "Alpha Beta","address" : "tokyo - Japan"}
-{"name": "Charlie Delta","address" : "Kyoto - Japan"}
-{"name": "Echo Friendly","address" : "Jakarta - Indonesia"}
+{"issuer": "BNI","acquirer" : "MDR", "destination" : "-", "code" : "'01'"}
+{"issuer": "BSI","acquirer" : "BSI", "destination" : "-", "code" : "'01'"}
+{"issuer": "MDR","acquirer" : "BRI", "destination" : "-", "code" : "'01'"}
+{"issuer": "BTN","acquirer" : "BCA", "destination" : "-", "code" : "'01'"}

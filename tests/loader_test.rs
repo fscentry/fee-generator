@@ -1,19 +1,35 @@
-use fee_generator::utils::{configuration_loader, clusters_loader};
+use std::collections::HashMap;
+use evaluator_rs::{evaluate, parse_expr_from_str, Value};
+use fee_generator::utils::{configuration_loader, clusters_loader,converter};
+use fee_generator::utils::converter::as_bool;
+
 mod common;
 
 #[test]
 fn test_full_loading_flow() {
-    // 1. Setup
     common::setup();
 
-    // 2. Test Configuration Loader (TOML)
     let config = configuration_loader::get_config();
     assert!(!config.cluster_json_path.is_empty(), "Path JSON cannot be empty!");
-
-    // 3. Test Cluster Loader (JSON)
     let clusters = clusters_loader::get_cluster(&config.cluster_json_path);
 
-    // Validation
     assert!(!clusters.clusters.is_empty(), "there must be at least one cluster!");
     assert_eq!(clusters.clusters[0].id, "c-normal");
+}
+
+#[test]
+fn test_evaluator_logic(){
+    let str = "({issuer} != {acquirer}) && {issuer} != {destination} && {code} in ['02','23','04','01']";
+    let parameters = HashMap::from([
+        ("issuer", Value::from("BNI")),
+        ("acquirer", Value::from("BTN")),
+        ("destination", Value::from("BCA")),
+        ("code", Value::from("'01'")),
+    ]);
+    let expr = parse_expr_from_str(str).expect("Gagal parsing ekspresi");
+
+    let is_valid = evaluate(&expr, &parameters)
+        .map_or(false, |v| as_bool(v));
+
+    assert!(is_valid, "Hasil evaluasi harus true");
 }

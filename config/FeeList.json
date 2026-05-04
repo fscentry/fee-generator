@@ -1,29 +1,107 @@
 [
   {
-    "cluster_id" :  "c-normal",
-     "rules" : [
-       {
-         "name" : "transfer",
-         "rule" : "substring({code},0,2) == 01",
-         "calculation" : [
-           {
-             "key" : "Fee Issuer",
-             "exp" : "{amount} * #fee_iss_percentage * #PPN"
-           },
-           {
-             "key" : "Fee Acquirer",
-             "exp" : "{amount} * #fee_acq_percentage * #PPN"
-           },
-           {
-             "key" : "Fee Acquirer",
-             "exp" : "{amount} * 0.04 * #PPN"
-           }
-         ]
-       }
-
-     ]
+    "cluster_id": "c-normal",
+    "rules": [
+      {
+        "name": "transfer",
+        "rule": "substring({code},0,2) == 02",
+        "calculation": [
+          {
+            "key": "Fee Issuer",
+            "exp": "{amount} * #fee_iss_percentage * #PPN"
+          },
+          {
+            "key": "Fee Acquirer",
+            "exp": "{amount} * #fee_acq_percentage * #PPN"
+          },
+          {
+            "key": "Fee Destination",
+            "exp": "{amount} * 0.04 * #PPN"
+          }
+        ]
+      },
+      {
+        "name": "withdrawal",
+        "rule": "substring({code},0,2) == 01",
+        "calculation": [
+          {
+            "key": "Fee Issuer",
+            "exp": "{amount} * #fee_iss_percentage * #PPN"
+          },
+          {
+            "key": "Fee Acquirer",
+            "exp": "{amount} * #fee_acq_percentage * #PPN"
+          },
+          {
+            "key": "Fee Destination",
+            "exp": "{amount} * 0.04 * #PPN"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "cluster_id" :  "c-normal-prio",
+    "rules": [
+      {
+        "name": "transfer",
+        "rule": "substring({code},0,2) == 02",
+        "calculation": [
+          {
+            "key": "Fee Issuer",
+            "exp": "{amount} * #fee_iss_percentage * #PPN"
+          },
+          {
+            "key": "Fee Acquirer",
+            "exp": "{amount} * #fee_acq_percentage * #PPN"
+          },
+          {
+            "key": "Fee Destination",
+            "exp": "{amount} * 0.04 * #PPN"
+          }
+        ]
+      },
+      {
+        "name": "withdrawal",
+        "rule": "substring({code},0,2) == 01",
+        "calculation": [
+          {
+            "key": "Fee Issuer",
+            "exp": "{amount} * #fee_iss_percentage * #PPN"
+          },
+          {
+            "key": "Fee Acquirer",
+            "exp": "{amount} * #fee_acq_percentage * #PPN"
+          },
+          {
+            "key": "Fee Destination",
+            "exp": "{amount} * 0.04 * #PPN"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "cluster_id" :  "default",
+    "rules": [
+      {
+        "name": "all trx",
+        "rule": null,
+        "calculation": [
+          {
+            "key": "Fee Issuer",
+            "exp": "0.0"
+          },
+          {
+            "key": "Fee Acquirer",
+            "exp": "0.0"
+          },
+          {
+            "key": "Fee Destination",
+            "exp": "0.0"
+          }
+        ]
+      }
+    ]
   }
 ]
-
-
-// # = adalah key reference ke cons PPN
