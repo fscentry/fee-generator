@@ -1,23 +1,53 @@
-use crate::models::clusters::Clusters;
+use std::collections::HashMap;
+use crate::models::clusters::{Cluster, Clusters, RawCluster, RawClusters};
 use serde::de::DeserializeOwned;
 use std::fs;
 use std::sync::OnceLock;
+use evaluator_rs::{parse_expr_from_str};
 use crate::models::clusters_fee::ClusterFee;
 
 static CLUSTER_CACHE: OnceLock<Clusters> = OnceLock::new();
-static CLUSTER_FEE_CACHE: OnceLock<Vec<ClusterFee>> = OnceLock::new();
+static CLUSTER_FEE_CACHE: OnceLock<HashMap<String, ClusterFee>> = OnceLock::new();
 
 pub fn get_cluster(path: &str) -> &'static Clusters {
     CLUSTER_CACHE.get_or_init(|| {
-        extract::<Clusters>(path, String::from("Reading Configuration for Cluster from: "))
-            .expect("Failed to initialize cluster cache")
+
+        let raw = extract::<RawClusters>(path, String::from("Reading Configuration for Cluster from: "))
+            .expect("Failed to initialize cluster cache");
+
+        let transform = |c: RawCluster| {
+            let compiled_expr = c.rules.as_ref().map(|r| {
+                parse_expr_from_str(r).expect("Failed to parse expression")
+            });
+
+            Cluster {
+                name: c.name,
+                id: c.id,
+                priority: c.priority,
+                sub_cluster: c.sub_cluster,
+                rules: c.rules,
+                expr: compiled_expr
+            }
+        };
+
+        Clusters {
+            clusters: raw.clusters.into_iter().map(transform).collect(),
+            sub_clusters: raw.sub_clusters.into_iter().map(transform).collect(),
+        }
     })
 }
 
-pub fn get_cluster_fee(path: &str) -> &'static Vec<ClusterFee> {
+pub fn get_cluster_fee(path: &str) -> &'static HashMap<String, ClusterFee> {
     CLUSTER_FEE_CACHE.get_or_init(|| {
-        extract::<Vec<ClusterFee>>(path, String::from("Reading Configuration for Cluster Fee from: "))
-            .expect("Failed to initialize cluster fee cache")
+        let raw_vec = extract::<Vec<ClusterFee>>(
+            path,
+            String::from("Reading Configuration for Cluster Fee from: ")
+        ).expect("Failed to initialize cluster fee cache");
+
+        raw_vec
+            .into_iter()
+            .map(|item| (item.cluster_id.clone(), item))
+            .collect::<HashMap<String, ClusterFee>>()
     })
 }
 

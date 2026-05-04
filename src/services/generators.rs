@@ -11,10 +11,9 @@ pub fn generate_fee(clusters: &Clusters, input: &Value){
 }
 fn get_cluster<'a>(clusters: &'a Clusters, input: &Value) -> Option<&'a Cluster> {
     for c in clusters.clusters.iter() {
-        if let Some(rule) = &c.rules {
+        if let (Some(expr), Some(rule)) = (&c.expr, &c.rules) {
             let params = extract_parameters(rule, input);
-            let eval = evaluator_str(rule, &params);
-            if as_bool(eval) {
+            if as_bool(evaluator_str(expr, &params)) {
                 return Some(c);
             }
         }

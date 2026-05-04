@@ -3,14 +3,14 @@ use evaluator_rs::Value;
 pub fn as_bool(val: Value) -> bool {
     match val {
         Value::Bool(b) => b,
-        _ => false, // Default jika tipe tidak sesuai
+        _ => false,
     }
 }
 
 pub fn as_f64(val: Value) -> f64 {
     match val {
         Value::Number(n) => n,
-        _ => 0.0, // Default jika tipe tidak sesuai
+        _ => 0.0
     }
 }
 

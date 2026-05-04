@@ -41,7 +41,7 @@
     ]
   },
   {
-    "cluster_id" :  "c-normal-prio",
+    "cluster_id": "c-normal-prio",
     "rules": [
       {
         "name": "transfer",
@@ -82,7 +82,7 @@
     ]
   },
   {
-    "cluster_id" :  "default",
+    "cluster_id": "default",
     "rules": [
       {
         "name": "all trx",

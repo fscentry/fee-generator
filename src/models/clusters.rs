@@ -1,7 +1,21 @@
-use serde::Deserialize;
+use evaluator_rs::Expr;
+use serde::{Deserialize};
+use derivative::Derivative;
 
-#[derive(Debug, Deserialize)]
+#[derive(Derivative)]
+#[derivative(Debug)]
 pub struct Cluster {
+    pub name: String,
+    pub id: String,
+    pub priority: u32,
+    pub sub_cluster: Option<String>,
+    pub rules: Option<String>,
+    /*ignored by serde*/
+    #[derivative(Debug = "ignore")]
+    pub expr: Option<Box<Expr>>,
+}
+#[derive(Deserialize)]
+pub struct RawCluster {
     pub name: String,
     pub id: String,
     pub priority: u32,
@@ -9,9 +23,14 @@ pub struct Cluster {
     pub rules: Option<String>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug)]
 pub struct Clusters {
     pub clusters: Vec<Cluster>,
-    #[serde(rename = "sub_clusters")]
     pub sub_clusters: Vec<Cluster>,
+}
+
+#[derive(Deserialize)]
+pub struct RawClusters {
+    pub clusters: Vec<RawCluster>,
+    pub sub_clusters: Vec<RawCluster>,
 }

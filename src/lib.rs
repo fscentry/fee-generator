@@ -39,10 +39,10 @@ pub fn test_run() {
             eprintln!("Waduh, gagal load file: {}", error);
         }
     }
+    */
+    // check fee
+    println!("{:?}", clusters_fee.get("c-normal"));
 
-    check fee
-    println!("{:?}", clusters_fee.first().unwrap().rules.first().unwrap().calculation.first().unwrap());
-   */
     println!("---------------------------------");
     //get cluster
     if let Ok(vec_data) = input.as_ref() {

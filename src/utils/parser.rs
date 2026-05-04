@@ -36,5 +36,5 @@ pub fn extract_parameters(template: &str, data: &JsonValue) -> HashMap<&'static 
 }
 
 fn get_by_dot_notation<'a>(data: &'a JsonValue, path: &str) -> Option<&'a JsonValue> {
-    path.split('.').fold(Some(data), |acc, key| acc?.get(key))
+    path.split('.').try_fold(data, |acc, key| acc.get(key))
 }
