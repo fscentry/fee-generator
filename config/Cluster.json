@@ -20,7 +20,7 @@
       "name": "Normal Cluster - priority",
       "id": "c-normal-prio",
       "priority": 1,
-      "sub_cluster": "sub_cluster",
+      "sub_cluster": "c-normal",
       "rules": "{channel} in [62001,62002,62003]"
     }
   ]

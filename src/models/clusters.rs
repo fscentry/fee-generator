@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use evaluator_rs::Expr;
 use serde::{Deserialize};
 use derivative::Derivative;
@@ -26,7 +27,7 @@ pub struct RawCluster {
 #[derive(Debug)]
 pub struct Clusters {
     pub clusters: Vec<Cluster>,
-    pub sub_clusters: Vec<Cluster>,
+    pub sub_clusters: HashMap<String,Vec<Cluster>>,
     pub default : Option<Cluster>,
 }
 

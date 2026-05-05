@@ -29,7 +29,6 @@ pub fn get_clusters(path: &str) -> &'static Clusters {
                 expr: compiled_expr
             }
         };
-
         /*default*/
         let default_index = raw
             .clusters
@@ -39,9 +38,17 @@ pub fn get_clusters(path: &str) -> &'static Clusters {
 
         let default_cluster = transform(raw.clusters.remove(default_index));
 
+        /*grouping sub-clusters*/
+        let mut sub_clusters: HashMap<String, Vec<Cluster>> = HashMap::new();
+        for item in raw.sub_clusters{
+            let cluster = transform(item);
+            if let Some(key) = cluster.sub_cluster.clone() {
+                sub_clusters.entry(key).or_insert(Vec::new()).push(cluster);
+            }
+        }
         Clusters {
             clusters: raw.clusters.into_iter().filter(|item| item.id != "default").map(transform).collect(),
-            sub_clusters: raw.sub_clusters.into_iter().map(transform).collect(),
+            sub_clusters,
             default : Some(default_cluster),
         }
     })

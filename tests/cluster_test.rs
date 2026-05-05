@@ -7,10 +7,10 @@ use serde_json::Value;
 fn get_one_cluster() {
     let config = get_config();
     let clusters = get_clusters(&config.cluster_json_path);
-    let raw = r#"{"issuer": "BNI","acquirer" : "MDR", "destination" : "-", "code" : "'01'"}"#;
+    let raw = r#"{"issuer": "BNI","acquirer" : "MDR", "destination" : "-", "code" : "'01'", "channel" : 62000}"#;
     let input: Value = serde_json::from_str(raw).unwrap();
     let res = find_cluster(clusters, &input);
-    assert!(res.is_some());
+    assert!(res.is_some() && res.unwrap().id == "c-normal");
 }
 
 #[test]
@@ -21,4 +21,15 @@ fn get_default_cluster() {
     let input: Value = serde_json::from_str(raw).unwrap();
     let res = find_cluster(clusters, &input);
     assert!(res.is_some() && res.unwrap().id == "default");
+}
+
+
+#[test]
+fn get_sub_cluster() {
+    let config = get_config();
+    let clusters = get_clusters(&config.cluster_json_path);
+    let raw = r#"{"issuer": "BNI","acquirer" : "BNI", "destination" : "-", "code" : "'01'", "channel" : 62001}"#;
+    let input: Value = serde_json::from_str(raw).unwrap();
+    let res = find_cluster(clusters, &input);
+    assert!(res.is_some());
 }
