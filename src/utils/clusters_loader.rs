@@ -9,10 +9,10 @@ use crate::models::clusters_fee::ClusterFee;
 static CLUSTER_CACHE: OnceLock<Clusters> = OnceLock::new();
 static CLUSTER_FEE_CACHE: OnceLock<HashMap<String, ClusterFee>> = OnceLock::new();
 
-pub fn get_cluster(path: &str) -> &'static Clusters {
+pub fn get_clusters(path: &str) -> &'static Clusters {
     CLUSTER_CACHE.get_or_init(|| {
 
-        let raw = extract::<RawClusters>(path, String::from("Reading Configuration for Cluster from: "))
+        let mut raw = extract::<RawClusters>(path, String::from("Reading Configuration for Cluster from: "))
             .expect("Failed to initialize cluster cache");
 
         let transform = |c: RawCluster| {
@@ -30,9 +30,19 @@ pub fn get_cluster(path: &str) -> &'static Clusters {
             }
         };
 
+        /*default*/
+        let default_index = raw
+            .clusters
+            .iter()
+            .position(|x| x.id == "default")
+            .expect("default cluster not found");
+
+        let default_cluster = transform(raw.clusters.remove(default_index));
+
         Clusters {
-            clusters: raw.clusters.into_iter().map(transform).collect(),
+            clusters: raw.clusters.into_iter().filter(|item| item.id != "default").map(transform).collect(),
             sub_clusters: raw.sub_clusters.into_iter().map(transform).collect(),
+            default : Some(default_cluster),
         }
     })
 }

@@ -11,7 +11,7 @@ fn test_full_loading_flow() {
 
     let config = configuration_loader::get_config();
     assert!(!config.cluster_json_path.is_empty(), "Path JSON cannot be empty!");
-    let clusters = clusters_loader::get_cluster(&config.cluster_json_path);
+    let clusters = clusters_loader::get_clusters(&config.cluster_json_path);
 
     assert!(!clusters.clusters.is_empty(), "there must be at least one cluster!");
     assert_eq!(clusters.clusters[0].id, "c-normal");
@@ -28,10 +28,10 @@ fn test_evaluator_logic(){
         ("decode", Value::from("'01'")),
     ]);
     println!("{:?}", &parameters);
-    let expr = parse_expr_from_str(str).expect("Gagal parsing ekspresi");
+    let expr = parse_expr_from_str(str).expect("failed parsing expression");
     println!("{:?}", &expr);
     let is_valid = evaluate(&expr, &parameters)
         .map_or(false, |v| as_bool(v));
 
-    assert!(is_valid, "Hasil evaluasi harus true");
+    assert!(is_valid, "should be true");
 }

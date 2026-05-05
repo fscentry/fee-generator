@@ -27,10 +27,11 @@ pub struct RawCluster {
 pub struct Clusters {
     pub clusters: Vec<Cluster>,
     pub sub_clusters: Vec<Cluster>,
+    pub default : Option<Cluster>,
 }
 
 #[derive(Deserialize)]
 pub struct RawClusters {
     pub clusters: Vec<RawCluster>,
-    pub sub_clusters: Vec<RawCluster>,
+    pub sub_clusters: Vec<RawCluster>
 }
