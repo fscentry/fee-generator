@@ -43,7 +43,7 @@ pub fn get_clusters(path: &str) -> &'static Clusters {
         for item in raw.sub_clusters{
             let cluster = transform(item);
             if let Some(key) = cluster.sub_cluster.clone() {
-                sub_clusters.entry(key).or_insert(Vec::new()).push(cluster);
+                sub_clusters.entry(key).or_default().push(cluster);
             }
         }
         Clusters {
