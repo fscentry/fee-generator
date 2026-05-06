@@ -8,7 +8,7 @@ pub fn build_parameter_map(data: &JsonValue) -> HashMap<String, Value> {
     output
 }
 
-fn flatten_json(prefix: &str,value: &JsonValue,output: &mut HashMap<String, Value>) {
+fn flatten_json(prefix: &str,value:  &JsonValue,output: &mut HashMap<String, Value>) {
     match value {
         JsonValue::Object(map) => {
             for (key, val) in map {

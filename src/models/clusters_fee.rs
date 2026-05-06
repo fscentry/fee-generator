@@ -23,3 +23,4 @@ pub struct Calculation {
     #[serde(skip)]
     pub expr: Option<Box<Expr>>,
 }
+

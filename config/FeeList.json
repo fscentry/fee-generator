@@ -8,15 +8,15 @@
         "calculation": [
           {
             "key": "Fee Issuer",
-            "exp": "{amount} * #fee_iss_percentage * #PPN"
+            "exp": "{amount} * 0.01"
           },
           {
             "key": "Fee Acquirer",
-            "exp": "{amount} * #fee_acq_percentage * #PPN"
+            "exp": "{amount} * 0.02"
           },
           {
             "key": "Fee Destination",
-            "exp": "{amount} * 0.04 * #PPN"
+            "exp": "{amount} * 0.04"
           }
         ]
       },
@@ -26,15 +26,15 @@
         "calculation": [
           {
             "key": "Fee Issuer",
-            "exp": "{amount} * #fee_iss_percentage * #PPN"
+            "exp": "{amount} * 0.01"
           },
           {
             "key": "Fee Acquirer",
-            "exp": "{amount} * #fee_acq_percentage * #PPN"
+            "exp": "{amount} * 0.02"
           },
           {
             "key": "Fee Destination",
-            "exp": "{amount} * 0.04 * #PPN"
+            "exp": "{amount} * 0.04"
           }
         ]
       }
@@ -49,15 +49,15 @@
         "calculation": [
           {
             "key": "Fee Issuer",
-            "exp": "{amount} * #fee_iss_percentage * #PPN"
+            "exp": "{amount} * 0.01"
           },
           {
             "key": "Fee Acquirer",
-            "exp": "{amount} * #fee_acq_percentage * #PPN"
+            "exp": "{amount} * 0.02"
           },
           {
             "key": "Fee Destination",
-            "exp": "{amount} * 0.04 * #PPN"
+            "exp": "{amount} * 0.04"
           }
         ]
       },
@@ -67,15 +67,15 @@
         "calculation": [
           {
             "key": "Fee Issuer",
-            "exp": "{amount} * #fee_iss_percentage * #PPN"
+            "exp": "{amount} * 0.01"
           },
           {
             "key": "Fee Acquirer",
-            "exp": "{amount} * #fee_acq_percentage * #PPN"
+            "exp": "{amount} * 0.02"
           },
           {
             "key": "Fee Destination",
-            "exp": "{amount} * 0.04 * #PPN"
+            "exp": "{amount} * 0.04"
           }
         ]
       }
