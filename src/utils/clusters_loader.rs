@@ -5,6 +5,7 @@ use std::fs;
 use std::sync::OnceLock;
 use evaluator_rs::{parse_expr_from_str};
 use crate::models::clusters_fee::ClusterFee;
+use crate::constants::DEFAULT;
 
 static CLUSTER_CACHE: OnceLock<Clusters> = OnceLock::new();
 static CLUSTER_FEE_CACHE: OnceLock<HashMap<String, ClusterFee>> = OnceLock::new();
@@ -33,7 +34,7 @@ pub fn get_clusters(path: &str) -> &'static Clusters {
         let default_index = raw
             .clusters
             .iter()
-            .position(|x| x.id == "default")
+            .position(|x| x.id == DEFAULT)
             .expect("default cluster not found");
 
         let default_cluster = transform(raw.clusters.remove(default_index));
@@ -47,7 +48,7 @@ pub fn get_clusters(path: &str) -> &'static Clusters {
             }
         }
         Clusters {
-            clusters: raw.clusters.into_iter().filter(|item| item.id != "default").map(transform).collect(),
+            clusters: raw.clusters.into_iter().filter(|item| item.id != DEFAULT ).map(transform).collect(),
             sub_clusters,
             default : Some(default_cluster),
         }
