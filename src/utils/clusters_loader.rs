@@ -57,10 +57,27 @@ pub fn get_clusters(path: &str) -> &'static Clusters {
 
 pub fn get_cluster_fee(path: &str) -> &'static HashMap<String, ClusterFee> {
     CLUSTER_FEE_CACHE.get_or_init(|| {
-        let raw_vec = extract::<Vec<ClusterFee>>(
+
+        let mut raw_vec = extract::<Vec<ClusterFee>>(
             path,
-            String::from("Reading Configuration for Cluster Fee from: ")
+            String::from("Reading Configuration for Cluster Fee from: "),
         ).expect("Failed to initialize cluster fee cache");
+
+        for cluster in &mut raw_vec {
+            for rule in &mut cluster.rules {
+
+                // parse optional rule expression
+                rule.expr = rule
+                    .rule
+                    .as_deref()
+                    .and_then(|r| parse_expr_from_str(r).ok());
+
+                // parse all calculation expressions
+                for calc in &mut rule.calculation {
+                    calc.expr = parse_expr_from_str(&calc.exp).ok();
+                }
+            }
+        }
 
         raw_vec
             .into_iter()

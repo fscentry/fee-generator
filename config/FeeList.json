@@ -3,8 +3,8 @@
     "cluster_id": "c-normal",
     "rules": [
       {
-        "name": "transfer",
-        "rule": "substring({code},0,2) == 02",
+        "name": "c-normal-transfer",
+        "rule": "{code} == '02'",
         "calculation": [
           {
             "key": "Fee Issuer",
@@ -21,8 +21,8 @@
         ]
       },
       {
-        "name": "withdrawal",
-        "rule": "substring({code},0,2) == 01",
+        "name": "c-normal-withdrawal",
+        "rule": "{code} == '01'",
         "calculation": [
           {
             "key": "Fee Issuer",
@@ -44,8 +44,8 @@
     "cluster_id": "c-normal-prio",
     "rules": [
       {
-        "name": "transfer",
-        "rule": "substring({code},0,2) == 02",
+        "name": "c-normal-prio-transfer",
+        "rule": "{code} == '02'",
         "calculation": [
           {
             "key": "Fee Issuer",
@@ -62,8 +62,8 @@
         ]
       },
       {
-        "name": "withdrawal",
-        "rule": "substring({code},0,2) == 01",
+        "name": "c-normal-prio-withdrawal",
+        "rule": "{code} == '01'",
         "calculation": [
           {
             "key": "Fee Issuer",

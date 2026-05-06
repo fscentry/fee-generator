@@ -4,9 +4,10 @@ use crate::utils::evaluators::evaluator_str;
 use crate::utils::parser::{build_parameter_map};
 use serde_json::Value;
 use std::collections::HashMap;
-use crate::models::clusters_fee::ClusterFee;
+use crate::constants::DEFAULT;
+use crate::models::clusters_fee::{ClusterFee, Rule};
 
-pub fn generate_fee(clusters: &Clusters, input: &Value, _fees : &HashMap<String, ClusterFee>) {
+pub fn generate_fee(clusters: &Clusters, input: &Value, fees : &HashMap<String, ClusterFee>) {
     let parameters= build_parameter_map(input);
     let borrowed: HashMap<&str, evaluator_rs::Value> = parameters
         .iter()
@@ -15,6 +16,8 @@ pub fn generate_fee(clusters: &Clusters, input: &Value, _fees : &HashMap<String,
 
     let cluster = find_cluster(clusters, &borrowed);
     println!("cluster {:?}", cluster);
+    let fee = find_fee(&cluster.unwrap().id, fees, &borrowed);
+    println!("fee {:?}", fee);
 }
 pub fn find_cluster<'a>(clusters: &'a Clusters, parameters: &HashMap<&'a str, evaluator_rs::Value>) -> Option<&'a Cluster> {
     let c = look_up(&clusters.clusters, parameters);
@@ -28,7 +31,6 @@ pub fn find_cluster<'a>(clusters: &'a Clusters, parameters: &HashMap<&'a str, ev
     }
     clusters.default.as_ref()
 }
-
 fn look_up<'a>(clusters: &'a [Cluster], parameters: &HashMap<&'a str, evaluator_rs::Value>) -> Option<&'a Cluster> {
     for c in clusters.iter() {
         if let Some(expr) = &c.expr {
@@ -39,19 +41,18 @@ fn look_up<'a>(clusters: &'a [Cluster], parameters: &HashMap<&'a str, evaluator_
     }
     None
 }
-
-// fn find_fee<'a>(name : &str, fees : &HashMap<String, ClusterFee>, parameters: &mut HashMap<&'a str, evaluator_rs::Value >) {
-//     if let Some(f) = fees.get(name) {
-//         for r in f.rules.iter() {
-//             if let Some(rr) = &r.rule {
-//                 extract_parameters(rule, input, parameters);
-//                 if as_bool(evaluator_str(expr, parameters)) {
-//                     return Some(c);
-//                 }
-//             }
-//         }
-//     }
-//
-// }
+fn find_fee<'a>(name : &str, fees : &'a HashMap<String, ClusterFee>, parameters: & HashMap<&'a str, evaluator_rs::Value >)-> Option<&'a Rule> {
+    if let Some(f) = fees.get(name) {
+        for r in f.rules.iter() {
+            if let Some(expr) = &r.expr {
+                if as_bool(evaluator_str(expr, parameters)) {
+                    return Some(r);
+                }
+            }
+        }
+    }
+    /*Default*/
+    fees.get(DEFAULT)?.rules.get(0)
+}
 
 
