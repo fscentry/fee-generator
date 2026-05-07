@@ -5,4 +5,5 @@ pub struct MainConfig {
     pub cluster_json_path: String,
     pub input_path: String,
     pub cluster_fee_json_path: String,
+        pub cons_reference_path:String,
 }

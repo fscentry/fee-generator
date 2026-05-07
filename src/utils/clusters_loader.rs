@@ -6,6 +6,7 @@ use std::sync::OnceLock;
 use evaluator_rs::{parse_expr_from_str};
 use crate::models::clusters_fee::ClusterFee;
 use crate::constants::DEFAULT;
+use crate::models::cons_reference::DynamicValue;
 
 static CLUSTER_CACHE: OnceLock<Clusters> = OnceLock::new();
 static CLUSTER_FEE_CACHE: OnceLock<HashMap<String, ClusterFee>> = OnceLock::new();
@@ -55,7 +56,7 @@ pub fn get_clusters(path: &str) -> &'static Clusters {
     })
 }
 
-pub fn get_cluster_fee(path: &str) -> &'static HashMap<String, ClusterFee> {
+pub fn get_cluster_fee(path: &str, cons : &HashMap<String, DynamicValue>) -> &'static HashMap<String, ClusterFee> {
     CLUSTER_FEE_CACHE.get_or_init(|| {
 
         let mut raw_vec = extract::<Vec<ClusterFee>>(
@@ -74,7 +75,8 @@ pub fn get_cluster_fee(path: &str) -> &'static HashMap<String, ClusterFee> {
 
                 // parse all calculation expressions
                 for calc in &mut rule.calculation {
-                    calc.expr = parse_expr_from_str(&calc.exp).ok();
+                    let str =  pair_with_cons(&calc.exp, cons);
+                    calc.expr = parse_expr_from_str(&str).ok();
                 }
             }
         }
@@ -86,6 +88,41 @@ pub fn get_cluster_fee(path: &str) -> &'static HashMap<String, ClusterFee> {
     })
 }
 
+fn pair_with_cons(exp : &str, cons : &HashMap<String, DynamicValue>)-> String{
+    let mut result = String::with_capacity(exp.len());
+    let chars: Vec<char> = exp.chars().collect();
+    let mut i = 0;
+    while i < chars.len() {
+        // detect @variable
+        if chars[i] == '@' {
+            let start = i + 1;
+            let mut end = start;
+
+            while end < chars.len()
+                && (chars[end].is_alphanumeric() || chars[end] == '_')
+            {
+                end += 1;
+            }
+            if start < end {
+                let key: String = chars[start..end].iter().collect();
+
+                if let Some(value) = cons.get(&key) {
+                    result.push_str(&value.to_str());
+                } else {
+                    result.push('@');
+                    result.push_str(&key);
+                }
+                i = end;
+                continue;
+            }
+        }
+        result.push(chars[i]);
+        i += 1;
+    }
+    result
+}
+
+
 fn extract<T>(path: &str, who : String) -> Result<T, serde_json::Error> where
     T: DeserializeOwned,
 {
@@ -93,3 +130,4 @@ fn extract<T>(path: &str, who : String) -> Result<T, serde_json::Error> where
     let raw_data = fs::read_to_string(path).expect("Failed reading JSON File");
     serde_json::from_str(&raw_data)
 }
+

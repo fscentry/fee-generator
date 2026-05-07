@@ -26,15 +26,19 @@
         "calculation": [
           {
             "key": "Fee Issuer",
-            "exp": "{amount} * 0.01"
+            "exp": "{amount} * @fee_iss_percentage"
+          },
+          {
+            "key": "Tax Fee Issuer",
+            "exp": "{amount} * @fee_iss_percentage * @tax_2026"
           },
           {
             "key": "Fee Acquirer",
-            "exp": "{amount} * 0.02"
+            "exp": "{amount} * @fee_acq_percentage"
           },
           {
             "key": "Fee Destination",
-            "exp": "{amount} * 0.04"
+            "exp": "{amount} * @fee_dest_percentage"
           }
         ]
       }

@@ -1,20 +1,8 @@
 {
-  "const_references": [
-    {
-      "key": "bni",
-      "val": "BNI"
-    },
-    {
-      "key": "PPN",
-      "val": "0.12"
-    },
-    {
-      "key": "fee_iss_percentage",
-      "val": "0.02"
-    },
-    {
-      "key": "fee_icq_percentage",
-      "val": "0.03"
-    }
-  ]
+  "bni": "'BNI'",
+  "PPN": 0.12,
+  "fee_iss_percentage": 0.02,
+  "fee_acq_percentage": 0.01,
+  "fee_dest_percentage": 0.027,
+  "tax_2026" : 0.12
 }
