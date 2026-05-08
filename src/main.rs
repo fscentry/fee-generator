@@ -1,5 +1,5 @@
-use fee_generator::test_run;
+use fee_generator::run_calculation;
 
 fn main() {
-    test_run();
+    run_calculation();
 }

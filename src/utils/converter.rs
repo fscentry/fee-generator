@@ -19,6 +19,6 @@ pub fn as_string(val: Value) -> String {
         Value::String(s) => s,
         Value::Number(n) => n.to_string(),
         Value::Bool(b) => b.to_string(),
-        evaluator_rs::Value::Array(_) => todo!(),
+        Value::Array(_) => todo!(),
     }
 }

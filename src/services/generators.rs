@@ -7,7 +7,7 @@ use std::collections::HashMap;
 use crate::constants::DEFAULT;
 use crate::models::clusters_fee::{Calculation, ClusterFee, Rule};
 
-pub fn generate_fee(clusters: &Clusters, input: &Value, fees : &HashMap<String, ClusterFee>) {
+pub fn generate_fee(clusters: &Clusters, input: &Value, fees : &HashMap<String, ClusterFee>) -> HashMap<String, f64> {
     let parameters= build_parameter_map(input);
     let borrowed: HashMap<&str, evaluator_rs::Value> = parameters
         .iter()
@@ -15,12 +15,8 @@ pub fn generate_fee(clusters: &Clusters, input: &Value, fees : &HashMap<String, 
         .collect();
 
     let cluster = find_cluster(clusters, &borrowed);
-    println!("cluster {:?}", cluster);
     let fee = find_fee(&cluster.unwrap().id, fees, &borrowed);
-    println!("fee {:?}", fee);
-    let res = calculation(&fee.unwrap().calculation, &borrowed);
-    println!("\n    fee RESULT {:?}", res);
-
+    calculation(&fee.unwrap().calculation, &borrowed)
 }
 pub fn find_cluster<'a>(clusters: &'a Clusters, parameters: &HashMap<&str, evaluator_rs::Value>) -> Option<&'a Cluster> {
     let c = look_up(&clusters.clusters, parameters);

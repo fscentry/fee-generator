@@ -1,5 +1,17 @@
 # configuration.toml
 cluster_json_path = "./config/Cluster.json"
 cluster_fee_json_path = "./config/FeeList.json"
-input_path = "./input/example.txt"
 cons_reference_path = "./config/Const.json"
+
+
+
+#input file:
+input_path = "./input/example.txt"
+
+## 0 for not backup
+## 1 for backup ( moved into sepcific path )
+backup=0
+backup_path= "./backup/"
+
+# Output
+output_path="./output/"

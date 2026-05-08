@@ -1,4 +1,4 @@
 {"issuer": "BNI","acquirer" : "MDR", "destination" : "-", "code" : "'01'", "channel" : 62000, "amount" : 20000}
-{"issuer": "BSI","acquirer" : "BSI", "destination" : "-", "code" : "'01'", "channel" : 62000, "amount" : 20000}
-{"issuer": "MDR","acquirer" : "BRI", "destination" : "-", "code" : "'01'", "channel" : 62000, "amount" : 20000}
-{"issuer": "BTN","acquirer" : "BCA", "destination" : "-", "code" : "'01'", "channel" : 62000, "amount" : 20000}
+{"issuer": "BSI","acquirer" : "BCA", "destination" : "-", "code" : "'01'", "channel" : 62000, "amount" : 40000}
+{"issuer": "MDR","acquirer" : "BRI", "destination" : "-", "code" : "'01'", "channel" : 62000, "amount" : 25000}
+{"issuer": "BTN","acquirer" : "BCA", "destination" : "-", "code" : "'01'", "channel" : 62000, "amount" : 120000}
