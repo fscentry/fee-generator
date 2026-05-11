@@ -7,11 +7,11 @@ cons_reference_path = "./config/Const.json"
 
 #input file:
 input_path = "./input/example.txt"
-
+data_key = "trx_id"
 ## 0 for not backup
 ## 1 for backup ( moved into sepcific path )
-backup=0
-backup_path= "./backup/"
+backup = 0
+backup_path = "./backup/"
 
 # Output
-output_path="./output/"
+output_path = "./output/"

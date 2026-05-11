@@ -3,6 +3,7 @@ pub mod utils;
 pub mod services;
 mod constants;
 
+use std::path::Path;
 use serde_json::json;
 use crate::services::generators::generate_fee;
 use crate::utils::{
@@ -11,7 +12,7 @@ use crate::utils::{
 };
 use crate::utils::clusters_loader::get_cluster_fee;
 use crate::utils::cons_loader::get_cons_reference;
-use crate::utils::writer::write_into_file;
+use crate::utils::writer::{move_file, write_into_file};
 
 pub fn run_calculation() {
     let config = get_config();
@@ -21,26 +22,28 @@ pub fn run_calculation() {
     let input = load_file_input_txt(&config.input_path);
 
 
-    println!("Total Cons Ref {}",cons_ref.len());
-    println!("Total Clusters: {}", clusters.clusters.len());
+    println!("Total Cons Ref    : {}",cons_ref.len());
+    println!("Total Clusters    : {}", clusters.clusters.len());
     println!("Total Sub-Clusters: {}", clusters.sub_clusters.len());
-    println!("Total Fees List: {}", clusters_fee.len());
-    // println!("Total input: {}",  input.as_ref().map(|v| v.len()).unwrap_or(0));
+    println!("Total Fees List   : {}", clusters_fee.len());
     println!("---------------------------------");
 
     let mut results : Vec<String> = Vec::new();
     if let Ok(datas) = input {
         for data in datas.iter() {
-            let rs = generate_fee(clusters, data, clusters_fee);
+            let rs = generate_fee(clusters, data, clusters_fee, &config.data_key);
             let json_string = json!(rs).to_string();
             results.push(json_string);
         }
+    }else{
+       println!("Error reading file '{}'", input.unwrap_err());
     }
-    let file_name = String::from("results_fee");
-    write_into_file(&config.output_path,&file_name , &results).expect("Failed to Write into file");
 
-    /*test*/
-    for result in &results {
-        println!("{}", result);
-    }
+    /*file name and write into file*/
+    let path = Path::new(&config.input_path);
+    let stem = path.file_stem().unwrap().to_str().unwrap();
+    let ext = path.extension().unwrap().to_str().unwrap();
+    let file_name = format!("{}_result_fee.{}", stem, ext);
+    write_into_file(&config.output_path,&file_name , &results).expect("Failed to Write into file");
+    move_file(&config.input_path, &config.backup_path, config.backup == 1).expect("Failed to move file");
 }

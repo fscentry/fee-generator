@@ -21,7 +21,7 @@
       "id": "c-normal-prio",
       "priority": 1,
       "sub_cluster": "c-normal",
-      "rules": "{channel} in [62001,62002,62003]"
+      "rules": "{network} in [6200,4040,9000]"
     }
   ]
 }

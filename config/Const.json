@@ -1,5 +1,5 @@
 {
-  "bni": "'BNI'",
+  "visa": "'VISA'",
   "PPN": 0.12,
   "fee_iss_percentage": 0.02,
   "fee_acq_percentage": 0.01,

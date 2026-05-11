@@ -1,4 +1,3 @@
-{"issuer": "BNI","acquirer" : "MDR", "destination" : "-", "code" : "'01'", "channel" : 62000, "amount" : 20000}
-{"issuer": "BSI","acquirer" : "BCA", "destination" : "-", "code" : "'01'", "channel" : 62000, "amount" : 40000}
-{"issuer": "MDR","acquirer" : "BRI", "destination" : "-", "code" : "'01'", "channel" : 62000, "amount" : 25000}
-{"issuer": "BTN","acquirer" : "BCA", "destination" : "-", "code" : "'01'", "channel" : 62000, "amount" : 120000}
+{"trx_id": "10001", "issuer": "VISA","acquirer" : "MCC", "destination" : "UPI", "code" : "'01'", "network" : 6200, "amount" : 20000}
+{"trx_id": "10002", "issuer": "MCC","acquirer" : "VISA", "destination" : "-", "code" : "'01'", "network" : 4040, "amount" : 40000}
+{"trx_id": "10004", "issuer": "UPI","acquirer" : "MCC", "destination" : "-", "code" : "'01'", "network" : 9000, "amount" : 120000}

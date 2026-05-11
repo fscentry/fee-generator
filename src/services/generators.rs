@@ -4,10 +4,10 @@ use crate::utils::evaluators::{evaluator_f64, evaluator_str};
 use crate::utils::parser::{build_parameter_map};
 use serde_json::Value;
 use std::collections::HashMap;
-use crate::constants::DEFAULT;
+use crate::constants::{DEFAULT, KEY_NAME, UNKNOWN};
 use crate::models::clusters_fee::{Calculation, ClusterFee, Rule};
 
-pub fn generate_fee(clusters: &Clusters, input: &Value, fees : &HashMap<String, ClusterFee>) -> HashMap<String, f64> {
+pub fn generate_fee(clusters: &Clusters, input: &Value, fees : &HashMap<String, ClusterFee>, data_key : &str) -> HashMap<String, String> {
     let parameters= build_parameter_map(input);
     let borrowed: HashMap<&str, evaluator_rs::Value> = parameters
         .iter()
@@ -16,7 +16,7 @@ pub fn generate_fee(clusters: &Clusters, input: &Value, fees : &HashMap<String, 
 
     let cluster = find_cluster(clusters, &borrowed);
     let fee = find_fee(&cluster.unwrap().id, fees, &borrowed);
-    calculation(&fee.unwrap().calculation, &borrowed)
+    calculation(&fee.unwrap().calculation, &borrowed, parameters.get(data_key))
 }
 pub fn find_cluster<'a>(clusters: &'a Clusters, parameters: &HashMap<&str, evaluator_rs::Value>) -> Option<&'a Cluster> {
     let c = look_up(&clusters.clusters, parameters);
@@ -50,14 +50,20 @@ fn find_fee<'a>(name : &str, fees : &'a HashMap<String, ClusterFee>, parameters:
     fees.get(DEFAULT)?.rules.first()
 }
 
-fn calculation(calculation : &[Calculation], parameters: & HashMap<&str, evaluator_rs::Value >) -> HashMap<String, f64>{
-    let mut results : HashMap<String, f64> = HashMap::new();
+fn calculation(calculation : &[Calculation], parameters: & HashMap<&str, evaluator_rs::Value >, data_key : Option<&evaluator_rs::Value>) -> HashMap<String, String>{
+    let mut results : HashMap<String, String> = HashMap::new();
+    if let Some(dk) = data_key{
+        results.insert(String::from(KEY_NAME), dk.to_string());
+    }else{
+        results.insert(String::from(KEY_NAME), String::from(UNKNOWN));
+    }
+
     for cal in calculation.iter() {
         if let Some(expr) = &cal.expr {
             let res = as_f64(evaluator_f64(expr, parameters));
-            results.insert(cal.key.clone(), res);
+            results.insert(cal.key.clone(), res.to_string());
         }
-    }   
+    }
     results
 }
 
