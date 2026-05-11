@@ -8,7 +8,7 @@ use fee_generator::utils::parser::build_parameter_map;
 fn get_one_cluster() {
     let config = get_config();
     let clusters = get_clusters(&config.cluster_json_path);
-    let raw = r#"{"issuer": "BNI","acquirer" : "MDR", "destination" : "-", "code" : "'01'", "channel" : 62000}"#;
+    let raw = r#"{"issuer": "VISA","acquirer" : "MCC", "destination" : "UPI", "code" : "'01'", "network" : 4041}"#;
 
     let input: Value = serde_json::from_str(raw).unwrap();
     let parameters= build_parameter_map(&input);
@@ -24,7 +24,7 @@ fn get_one_cluster() {
 fn get_default_cluster() {
     let config = get_config();
     let clusters = get_clusters(&config.cluster_json_path);
-    let raw = r#"{"issuer": "BNI","acquirer" : "BNI", "destination" : "-", "code" : "'01'"}"#;
+    let raw = r#"{"issuer": "VISA","acquirer" : "VISA", "destination" : "-", "code" : "'01'"}"#;
     let input: Value = serde_json::from_str(raw).unwrap();
 
     let parameters= build_parameter_map(&input);
@@ -42,7 +42,7 @@ fn get_default_cluster() {
 fn get_sub_cluster() {
     let config = get_config();
     let clusters = get_clusters(&config.cluster_json_path);
-    let raw = r#"{"issuer": "BNI","acquirer" : "BNI", "destination" : "-", "code" : "'01'", "channel" : 62001}"#;
+    let raw = r#"{"issuer": "VISA","acquirer" : "MCC", "destination" : "-", "code" : "'01'", "network" : 4040}"#;
     let input: Value = serde_json::from_str(raw).unwrap();
     let parameters= build_parameter_map(&input);
     let borrow = parameters
