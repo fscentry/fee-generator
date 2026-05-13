@@ -148,7 +148,7 @@ this is should follow base format, ( default should always defined)
 ```
 ### `Const - config/Const.json` Defining Constat Reference
 - this is should follow base format.
-- this defined const reference and can be used across Cluster, Fee, and Input
+- this defined const reference and can be used across Cluster, Fee, and Input using tag @ + [name_of const] exp @PPN
 ```json
 {
   "visa": "'VISA'",
